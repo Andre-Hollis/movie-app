@@ -73,7 +73,7 @@ updateMovie = (req, res) => {
 }
 
 deleteMovie = async (req, res) => {
-    await Movie.findOneAndDelete({_id: req.parmas.id}, (err, movie) => {
+    await Movie.findOneAndDelete({_id: req.params.id}, (err, movie) => {
         if (err) {
             return res.status(400).json({
                 success: false,
