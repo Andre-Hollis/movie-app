@@ -21,5 +21,5 @@ export const NavBar = () => {
                 <Links />
             </Nav>
         </Container>
-    )
+    );
 }
