@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { ReactTable }from 'react';
+import React from 'react';
 
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { Table, Container, Dropdown } from 'react-bootstrap';
 
 import { apis } from '../api';
-import { Table } from '../components';
-
-const Wrapper = styled.div`
-    padding: 0 40px 40px 40px;
-`
-
-
 
 export const MoviesList = () => {
 
     const [movies, setMovies] = useState([]);
-    const [columns, setColumns] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(null);
 
     useEffect(() => {
-        async function fetchAPI() {
+        async function fetchMyAPI() {
             setIsLoading(true);
 
             await apis.getMovies().then(movies => {
@@ -27,33 +19,10 @@ export const MoviesList = () => {
                 setIsLoading(false);
             });
         }
-        fetchAPI();
-    }, []);
+        fetchMyAPI();
+    });
 
     console.log('TCL: MoviesList -> render -> movies', movies);
-
-    setColumns([
-        {
-            Header: 'ID',
-            accessor: '_id',
-            filterable: true,
-        },
-        {
-            Header: 'Name',
-            accessor: 'name',
-            filterable: true,
-        },
-        {
-            Header: 'Rating',
-            accessor: 'rating',
-            filterable: true,
-        },
-        {
-            Header: 'Time',
-            accessor: 'time',
-            Cell: props => <span>{props.value.join(' / ')}</span>,
-        },
-    ]);
 
     let showTable = true
     if (!movies.length) {
@@ -61,17 +30,45 @@ export const MoviesList = () => {
     }
 
     return (
-        <Wrapper>
-            {showTable && (
-                <ReactTable
-                    data={movies}
-                    columns={columns}
-                    loading={isLoading}
-                    defaultPageSize={10}
-                    showPageSizeOptions={true}
-                    minRows={0}
-                />
-            )}
-        </Wrapper>
+        <Container>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Rating</th>
+                        <th>Time</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {showTable && (
+                        movies.map(movie => {
+                            return (
+                                <tr>
+                                    <td>{movie._id}</td>
+                                    <td>{movie.name}</td>
+                                    <td>{movie.rating}</td>
+                                    <td>{movie.time}</td>
+                                    <td>
+                                        <Dropdown>
+                                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                                Dropdown Button
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    )}
+                </tbody>
+            </Table>
+        </Container>
     );
 }

@@ -2,9 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { NavBar } from '../components/NavBar';
-import { MoviesInsert } from '../pages/MoviesInsert';
-import { MoviesList } from '../pages/MoviesList';
-import { MoviesUpdate } from '../pages/MoviesUpdate';
+import { MoviesInsert, MoviesUpdate, MoviesList } from '../pages';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
