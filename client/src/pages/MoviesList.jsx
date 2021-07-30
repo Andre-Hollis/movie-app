@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Table, Container, Dropdown } from 'react-bootstrap';
 
 import { apis } from '../api';
+import { DeleteMovie } from '../components';
 
 export const MoviesList = () => {
 
@@ -42,31 +43,30 @@ export const MoviesList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {showTable && (
-                        movies.map(movie => {
-                            return (
-                                <tr>
-                                    <td>{movie._id}</td>
-                                    <td>{movie.name}</td>
-                                    <td>{movie.rating}</td>
-                                    <td>{movie.time}</td>
-                                    <td>
-                                        <Dropdown>
-                                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                                Dropdown Button
-                                            </Dropdown.Toggle>
+                {showTable && (
+                    movies.map(movie => {
+                        return (
+                            <tr>
+                                <td>{movie._id}</td>
+                                <td>{movie.name}</td>
+                                <td>{movie.rating}</td>
+                                <td>{movie.time.map((time, i, arr) => arr.length - 1 === i ? `${time}` : `${time}, `)}</td>
+                                <td>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                                            Options
+                                        </Dropdown.Toggle>
 
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    )}
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item href={`/update/${movie._id}`}>Update</Dropdown.Item>
+                                            <DeleteMovie movieId={movie._id} />
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </td>
+                            </tr>
+                        )
+                    })
+                )}
                 </tbody>
             </Table>
         </Container>

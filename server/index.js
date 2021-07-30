@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const db = require('./db');
@@ -15,7 +14,7 @@ app.use(express.json());
 db.on('error', console.error.bind(console, 'MonogoDB connection error:'));
 
 app.get('/', (req, res) => {
-    res.send('Hello world!!!');
+    res.send('Hello world!');
 });
 
 app.use('/api', movieRouter);
